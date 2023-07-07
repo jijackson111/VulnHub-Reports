@@ -1,0 +1,31 @@
+Step 1 - Get IP address:
+  Host address is 192.168.56.101
+Step 2 – Get Victim IP:
+  Found: 192.168.56.107
+Step 3 – Nmap Scan:
+  Port 31337 looks interesting
+Step 4 – Visit Site and Enumerate Subdirectories:
+  Nothing interesting
+Step 5 – Visit Port 31337:
+  It’s a separate webpage
+
+Step 6 – View Source:
+ 
+Hidden Base64 hash
+
+
+
+Step 7 – Decode:
+ See if it is a subdirectory
+Step 8 – Add to URL:
+  Download file
+Step 9 – Read File:
+  Brainfuck cypher
+
+Step 10 – Decode Cypher:
+ We now have the login and majority of the password
+
+Step 11 – Generate all possible passwords:
+ 
+Step 12 – Save script output to password list to use for Hydra bruteforce attempt:
+ 
